@@ -13,10 +13,10 @@ start: create
 
 
 build-ubuntu:
-    docker build --progress=plain -f ./ubuntu-shell.dockerfile -t ubuntu-shell:latest .
+  docker build --progress=plain -f ./ubuntu-shell.dockerfile -t ubuntu-shell:latest .
 
 run-docker-shell: cleanup-docker-shell build-ubuntu
- docker run -it --name dev-shell -u root -v /var/run/docker.sock:/var/run/docker.sock ubuntu-shell:latest
+  docker run -it --name dev-shell -u root-v /var/run/docker.sock:/var/run/docker.sock ubuntu-shell:latest
 
 
 cleanup-docker-shell:
