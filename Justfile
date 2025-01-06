@@ -14,10 +14,19 @@ start: create
 
 build-ubuntu:
   docker build --progress=plain -f ./ubuntu-shell.dockerfile -t ubuntu-shell:latest .
+  
+run-docker-ubuntu-shell: cleanup-docker-shell build-ubuntu
+  docker run -it --name dev-shell --privileged -v /var/run/docker.sock:/var/run/docker.sock ubuntu-shell:latest
 
-run-docker-shell: cleanup-docker-shell build-ubuntu
-  docker run -it --name dev-shell -u root-v /var/run/docker.sock:/var/run/docker.sock ubuntu-shell:latest
+run-docker-arch-shell:cleanup-docker-shell build-arch
+  docker run -it --name dev-shell --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /home/iansudderth/:/home/root/work-home/ arch-shell:latest
 
+build-arch:
+  docker build --progress=plain -f ./arch-shell.dockerfile -t arch-shell:latest .
 
 cleanup-docker-shell:
   -docker rm dev-shell
+
+attach-to-docker-shell:
+  -docker start dev-shell
+  docker attach dev-shell
