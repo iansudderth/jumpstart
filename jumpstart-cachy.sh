@@ -77,7 +77,6 @@ CACHY_PACKAGES=(
   'ripgrep'
   'tailscale'
   'vlc'
-  'yay-bin'
   'zellij'
   'zoxide'
   'zsh'
