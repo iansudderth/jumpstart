@@ -14,7 +14,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Chezmoi configuration
-CHEZMOI_REPO=""
+CHEZMOI_REPO="https://github.com/iansudderth/dotfiles.git"
 
 # Package arrays
 AUR_PACKAGES=(
@@ -31,7 +31,6 @@ EXTRA_PACKAGES=(
   'awesome-terminal-fonts'
   'bash-completion'
   'chezmoi'
-  'cuda'
   'discord'
   'gparted'
   'otf-droid-nerd'
@@ -53,7 +52,6 @@ EXTRA_PACKAGES=(
 CACHY_PACKAGES=(
   'asusctl'
   'atuin'
-  'avahi'
   'bat'
   'brave-bin'
   'bun-bin'
@@ -78,21 +76,11 @@ CACHY_PACKAGES=(
   'python'
   'ripgrep'
   'tailscale'
-  'tree-sitter'
-  'tree-sitter-c'
-  'tree-sitter-lua'
-  'tree-sitter-markdown'
-  'tree-sitter-query'
-  'tree-sitter-vim'
-  'tree-sitter-vimdoc'
   'vlc'
-  'vlc-cli'
-  'vlc-gui-qt'
   'yay-bin'
   'zellij'
   'zoxide'
   'zsh'
-  'zsh-theme-powerlevel10k'
 )
 
 # ============================================================================
