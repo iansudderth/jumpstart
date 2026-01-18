@@ -6,6 +6,6 @@ To run the cachy script:
 
 ```
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/iansudderth/jumpstart/HEAD/jumpstart-cachy.sh)"
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/iansudderth/jumpstart/HEAD/jumpstart-cachy.sh)"
 
 ```
