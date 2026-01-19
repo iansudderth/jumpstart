@@ -6,13 +6,6 @@ set -euo pipefail
 # Configuration
 # ============================================================================
 
-# Color definitions
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
 # Chezmoi configuration
 CHEZMOI_REPO="https://github.com/iansudderth/dotfiles.git"
 
@@ -36,6 +29,7 @@ EXTRA_PACKAGES=(
   'discord'
   'git-delta'
   'gparted'
+  'just'
   'otf-droid-nerd'
   'otf-geist-mono-nerd'
   'pyenv'
@@ -70,7 +64,10 @@ CACHY_PACKAGES=(
   'graphene'
   'helix'
   'jq'
+  'k9s'
   'kitty'
+  'laygit'
+  'lazydocker'
   'lua'
   'micro'
   'neovim'
@@ -85,6 +82,13 @@ CACHY_PACKAGES=(
   'zoxide'
   'zsh'
 )
+
+# Color definitions
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
 # ============================================================================
 # Main
