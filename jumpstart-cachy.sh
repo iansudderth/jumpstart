@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+SUDO_INSTALL=false
+if [[ "${1:-}" == "--sudo-install" ]]; then
+  SUDO_INSTALL=true
+  shift
+fi
+
 # ============================================================================
 # Configuration
 # ============================================================================
@@ -18,6 +24,7 @@ CHEZMOI_REPO="https://github.com/iansudderth/dotfiles.git"
 
 # Package arrays
 AUR_PACKAGES=(
+  '1password'
   'opencode'
   'perplexity'
   'jetbrains-toolbox'
@@ -32,6 +39,7 @@ EXTRA_PACKAGES=(
   'bash-completion'
   'chezmoi'
   'discord'
+  'git-delta'
   'gparted'
   'otf-droid-nerd'
   'otf-geist-mono-nerd'
@@ -87,13 +95,21 @@ CACHY_PACKAGES=(
 # ============================================================================
 
 main() {
+  if [[ "$SUDO_INSTALL" == "true" ]]; then
+    log_info "Running privileged package installs..."
+    install_dependencies
+    install_from_core
+    install_from_extra
+    install_from_cachy
+    log_success "Privileged package installs complete!"
+    return 0
+  fi
+
   log_info "Starting CachyOS package installation..."
 
   check_system
+  sudo bash "$0" --sudo-install
   install_yay
-  install_from_core
-  install_from_extra
-  install_from_cachy
   install_from_aur
   sync_chezmoi
 
@@ -182,6 +198,10 @@ install_with_yay() {
 
 check_system() {
   log_info "Checking system..."
+  if [[ "$SUDO_INSTALL" != "true" && "$EUID" -eq 0 ]]; then
+    log_error "Do not run this script as root. Run as a normal user; sudo is used for package installs."
+    exit 1
+  fi
   if ! grep -qi "arch\|cachy" /etc/os-release; then
     log_error "This script is designed for Arch/CachyOS"
     exit 1
@@ -218,7 +238,6 @@ install_yay() {
   fi
 
   log_info "Installing yay..."
-  install_dependencies
 
   local temp_dir=$(mktemp -d)
   trap "rm -rf $temp_dir" EXIT
