@@ -2,12 +2,6 @@
 
 set -euo pipefail
 
-SUDO_INSTALL=false
-if [[ "${1:-}" == "--sudo-install" ]]; then
-  SUDO_INSTALL=true
-  shift
-fi
-
 # ============================================================================
 # Configuration
 # ============================================================================
@@ -102,15 +96,21 @@ main() {
 
   check_system
 
-  (
-    sudo -s
-    log_info "Running privileged package installs..."
-    install_dependencies
-    install_from_core
-    install_from_extra
-    install_from_cachy
-    log_success "Privileged package installs complete!"
+  # this block pulls in the function declarations and inslines them with the sudo block
+  sudo bash -c "$(
+    declare -p RED GREEN YELLOW BLUE NC CORE_PACKAGES EXTRA_PACKAGES CACHY_PACKAGES
+    declare -f echo_red echo_green echo_yellow echo_blue
+    declare -f log_info log_success log_warning
+    declare -f package_exists install_with_pacman
+    declare -f install_dependencies install_from_core install_from_extra install_from_cachy
   )
+  log_info \"Running privileged package installs...\"
+  install_dependencies
+  install_from_core
+  install_from_extra
+  install_from_cachy
+  log_success \"Privileged package installs complete!\"
+  "
 
   install_yay
   install_from_aur
@@ -201,7 +201,7 @@ install_with_yay() {
 
 check_system() {
   log_info "Checking system..."
-  if [[ "$SUDO_INSTALL" != "true" && "$EUID" -eq 0 ]]; then
+  if [[ "$EUID" -eq 0 ]]; then
     log_error "Do not run this script as root. Run as a normal user; sudo is used for package installs."
     exit 1
   fi
