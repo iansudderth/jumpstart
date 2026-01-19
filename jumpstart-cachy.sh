@@ -97,20 +97,21 @@ CACHY_PACKAGES=(
 # ============================================================================
 
 main() {
-  if [[ "$SUDO_INSTALL" == "true" ]]; then
+
+  log_info "Starting CachyOS package installation..."
+
+  check_system
+
+  (
+    sudo -s
     log_info "Running privileged package installs..."
     install_dependencies
     install_from_core
     install_from_extra
     install_from_cachy
     log_success "Privileged package installs complete!"
-    return 0
-  fi
+  )
 
-  log_info "Starting CachyOS package installation..."
-
-  check_system
-  sudo bash "$0" --sudo-install
   install_yay
   install_from_aur
   sync_chezmoi
