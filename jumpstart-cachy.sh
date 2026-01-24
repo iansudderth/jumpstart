@@ -41,6 +41,7 @@ EXTRA_PACKAGES=(
   'ttf-roboto-mono-nerd'
   'ttf-ubuntu-mono-nerd'
   'ttf-ubuntu-nerd'
+  'wl-clipboard'
   'yazi'
   'zsh-autocomplete'
   'zsh-autosuggestions'
