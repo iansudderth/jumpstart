@@ -43,9 +43,6 @@ EXTRA_PACKAGES=(
   'ttf-ubuntu-nerd'
   'wl-clipboard'
   'yazi'
-  'zsh-autocomplete'
-  'zsh-autosuggestions'
-  'zsh-completions'
 )
 
 CACHY_PACKAGES=(
@@ -73,7 +70,6 @@ CACHY_PACKAGES=(
   'micro'
   'neovim'
   'nodejs'
-  'oh-my-zsh-git'
   'ollama'
   'python'
   'ripgrep'
@@ -119,6 +115,8 @@ main() {
 
   install_yay
   install_from_aur
+  install_ohmyzsh
+  install_zsh_autosuggestions
   sync_chezmoi
 
   log_success "Package installation complete!"
@@ -288,6 +286,39 @@ install_from_aur() {
   for package in "${AUR_PACKAGES[@]}"; do
     install_with_yay "AUR" "$package"
   done
+}
+
+# ============================================================================
+# Custom installations
+# ============================================================================
+
+install_ohmyzsh() {
+  if [ -d "$HOME/.oh-my-zsh" ]; then
+    log_warning "Oh My Zsh is already installed, skipping"
+    return 0
+  fi
+
+  log_info "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  log_success "Oh My Zsh installed successfully"
+}
+
+install_zsh_autosuggestions() {
+  local plugin_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+  
+  if [ -d "$plugin_dir" ]; then
+    log_warning "zsh-autosuggestions is already installed, skipping"
+    return 0
+  fi
+
+  if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    log_warning "Oh My Zsh is not installed, skipping zsh-autosuggestions installation"
+    return 0
+  fi
+
+  log_info "Installing zsh-autosuggestions..."
+  git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+  log_success "zsh-autosuggestions installed successfully"
 }
 
 # ============================================================================
