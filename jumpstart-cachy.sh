@@ -64,7 +64,7 @@ CACHY_PACKAGES=(
   'jq'
   'k9s'
   'kitty'
-  'laygit'
+  'lazygit'
   'lazydocker'
   'lua'
   'micro'
@@ -305,7 +305,7 @@ install_ohmyzsh() {
 
 install_zsh_autosuggestions() {
   local plugin_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-  
+
   if [ -d "$plugin_dir" ]; then
     log_warning "zsh-autosuggestions is already installed, skipping"
     return 0
